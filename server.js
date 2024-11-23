@@ -44,13 +44,13 @@ io.on('connection', (socket) => {
   });
 });
 
-
+// Test route
 app.get('/test', (req, res) => {
   res.send('Server is running');
 });
 
-
-// Set up the server to listen on port 5000
-server.listen(5000, () => {
-  console.log('Server running on port 5000');
+// Set up the server to listen on the port specified in .env, default to 5000
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
