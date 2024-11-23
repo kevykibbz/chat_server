@@ -15,7 +15,7 @@ const handleThreadChat = (socket) => {
       if (err) {
         console.error("Error saving message to the database:", err);
       } else {
-        console.log("Message saved to the thread database:", result);
+        console.log("Thread message saved to the thread database:", result);
       }
     });
     // Broadcast the message to other clients in the thread

@@ -10,12 +10,24 @@ const handleThreadChat = require('./thread');
 const app = express();
 const server = http.createServer(app);
 
-app.use(cors({ origin: process.env.SERVER_URL, methods: ['GET', 'POST'] }));
+// Allow multiple origins by splitting the SERVER_URL environment variable
+const allowedOrigins = process.env.SERVER_URL.split(',');
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);  // Allow the request
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST']
+}));
 
 // Initialize Socket.IO with CORS configuration
 const io = socketIo(server, {
   cors: {
-    origin: process.env.SERVER_URL, // Allow connections from frontend
+    origin: allowedOrigins,  // Allow multiple origins
     methods: ['GET', 'POST']
   }
 });
